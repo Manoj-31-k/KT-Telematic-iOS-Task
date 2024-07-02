@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-IOS Developer Task/Pods-IOS Developer Task-frameworks.sh
+${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
+${BUILT_PRODUCTS_DIR}/Realm/Realm.framework
+${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework

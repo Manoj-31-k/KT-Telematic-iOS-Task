@@ -1,0 +1,6 @@
+framework module Pods_IOS_Developer_Task {
+  umbrella header "Pods-IOS Developer Task-umbrella.h"
+
+  export *
+  module * { export * }
+}
