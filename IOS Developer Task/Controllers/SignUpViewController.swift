@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 class SignUpViewController: UIViewController,UITextFieldDelegate {
-
+    
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -53,7 +53,9 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         try? realm?.write {
             realm?.add(newUser)
         }
-        self.showAlert(title: "Sign Up", message: "User signed up successfully")
+        self.showAlert(title: "Sign Up", message: "User signed up successfully") {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func emailCheck(email: String) -> Bool {
@@ -64,7 +66,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
             return false
         }
     }
-
+    
 }
 
 

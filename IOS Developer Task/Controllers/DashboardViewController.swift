@@ -10,20 +10,20 @@ import CoreLocation
 import RealmSwift
 
 class DashboardViewController: UIViewController {
-
+    
     @IBOutlet weak var mapTableView: UITableView!
     var locationManager = CLLocationManager()
     var locations: [(address: String, latitude: Double, longitude: Double)] = []
     var email = ""
     var saveBool = true
-
+    
     var locationUpdateTimer: Timer?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configuration()
     }
-
+    
     func configuration() {
         locations = getLocationsForUser(email: email)
         mapTableView.register(UINib(nibName: "DashboardMapCell", bundle: nil), forCellReuseIdentifier: "DashboardMapCell")
@@ -36,10 +36,10 @@ class DashboardViewController: UIViewController {
     }
     
     func startUpdatingLocation() {
-            locationManager.startUpdatingLocation()
-            startLocationUpdateTimer()
+        locationManager.startUpdatingLocation()
+        startLocationUpdateTimer()
     }
-
+    
     func startLocationUpdateTimer() {
         locationUpdateTimer?.invalidate() // Invalidate existing timer if any
         locationUpdateTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { [weak self] _ in
@@ -47,7 +47,7 @@ class DashboardViewController: UIViewController {
             self?.locationManager.startUpdatingLocation()
         }
     }
-
+    
     
     func saveLocation(location: CLLocation) {
         if saveBool {
@@ -135,8 +135,8 @@ extension DashboardViewController: CLLocationManagerDelegate {
             self.locationManager.requestLocation()
         }
     }
-
-
+    
+    
     func showLocationDisabledAlert() {
         let alertController = UIAlertController(
             title: "Location Services Disabled",
@@ -156,14 +156,14 @@ extension DashboardViewController: CLLocationManagerDelegate {
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
-
+    
 }
 
 extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return locations.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardMapCell", for: indexPath) as? DashboardMapCell else {
             return UITableViewCell()
@@ -174,15 +174,15 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let mapViewController = storyboard.instantiateViewController(withIdentifier: "MapViewController") as? MapViewController {
-                let selectedLocation = locations[indexPath.row]
-                mapViewController.location = selectedLocation
-                mapViewController.locations = locations
-                mapViewController.email = email
-                navigationController?.pushViewController(mapViewController, animated: true)
-            }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let mapViewController = storyboard.instantiateViewController(withIdentifier: "MapViewController") as? MapViewController {
+            let selectedLocation = locations[indexPath.row]
+            mapViewController.location = selectedLocation
+            mapViewController.locations = locations
+            mapViewController.email = email
+            navigationController?.pushViewController(mapViewController, animated: true)
         }
+    }
     
 }
 

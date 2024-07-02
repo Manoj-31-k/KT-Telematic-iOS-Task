@@ -9,17 +9,21 @@ import UIKit
 import RealmSwift
 
 class SignInViewController: UIViewController {
-
+    
     @IBOutlet weak var usersTablView: UITableView!
+    @IBOutlet weak var popupViewHeightContraint: NSLayoutConstraint!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signUpLabel: UILabel!
+    @IBOutlet weak var popupView: UIView!
+    @IBOutlet weak var popupTitleLabel: UILabel!
     
     var emailList = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        popupView.layer.cornerRadius = 20
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,10 +32,16 @@ class SignInViewController: UIViewController {
     
     func configuration() {
         usersTablView.register(UINib(nibName: "DashboardMapCell", bundle: nil), forCellReuseIdentifier: "DashboardMapCell")
-        let tap = UITapGestureRecognizer(target: self, action: #selector(signUpLabelAction))
-        signUpLabel.addGestureRecognizer(tap)
         emailList = getAllEmails()
         usersTablView.reloadData()
+        
+        if !emailList.isEmpty {
+            popupView.isHidden = false
+            let height = usersTablView.contentSize.height + 77
+            popupViewHeightContraint.constant = height > 300 ? 300 : height
+        } else {
+            popupView.isHidden = true
+        }
     }
     
     func getAllEmails() -> [String] {
@@ -40,7 +50,11 @@ class SignInViewController: UIViewController {
         return users.map { $0.email }
     }
     
-    @objc func signUpLabelAction() {
+    @IBAction func popupCloseButtonAction(_ sender: Any) {
+    }
+    
+    
+    @IBAction func signUpButtonAction(_ sender: Any) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         guard let viewController = storyBoard.instantiateViewController(withIdentifier: "SignUpViewController") as? SignUpViewController else {
             return
@@ -82,7 +96,7 @@ class SignInViewController: UIViewController {
         }
     }
 }
-extension SignInViewController: UITableViewDelegate,UITableViewDataSource {
+extension SignInViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         emailList.count
     }

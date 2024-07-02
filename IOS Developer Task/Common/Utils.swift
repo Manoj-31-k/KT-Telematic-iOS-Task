@@ -31,9 +31,11 @@ func getLocationsForUser(email: String) -> [(address: String, latitude: Double, 
 }
 
 extension UIViewController {
-    func showAlert(title: String, message: String, actionTitle: String = "OK") {
+    func showAlert(title: String, message: String, actionTitle: String = "OK", completion: (()->Void)? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: actionTitle, style: .default, handler: nil)
+        let defaultAction = UIAlertAction(title: actionTitle, style: .default, handler: { _ in
+            completion?()
+        })
         alertController.addAction(defaultAction)
         self.present(alertController, animated: true, completion: nil)
     }

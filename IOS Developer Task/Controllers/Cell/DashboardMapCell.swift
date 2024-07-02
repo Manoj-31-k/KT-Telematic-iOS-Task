@@ -8,14 +8,14 @@
 import UIKit
 
 class DashboardMapCell: UITableViewCell {
-
+    
     @IBOutlet weak var addressLbl: UILabel!
     @IBOutlet weak var latitudeLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
